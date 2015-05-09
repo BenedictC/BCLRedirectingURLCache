@@ -1,0 +1,388 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		82DFCDCF1AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */; };
+		82DFCDD01AFE4D3C00D71740 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
+		82DFCDD11AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */; };
+		82DFCDD21AFE4D3C00D71740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCE1AFE4D3C00D71740 /* main.m */; };
+		82DFCDF11AFE560D00D71740 /* BCLNonCachingHTTPConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */; };
+		82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */; };
+		82DFCDF31AFE560D00D71740 /* BCLRedirectingURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */; };
+		82DFCDF41AFE561100D71740 /* url-cache.redirects in Resources */ = {isa = PBXBuildFile; fileRef = 82DFCDD71AFE4D4700D71740 /* url-cache.redirects */; };
+		82DFCDF51AFE563D00D71740 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
+		82DFCDF61AFE563D00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */; };
+		82DFCDF71AFE563D00D71740 /* BCLNonCachingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		82DC82DD1AFD3BE9000E0552 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BCLRedirectingURLCache; sourceTree = BUILT_PRODUCTS_DIR; };
+		82DFCDC81AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLNonCachingHTTPConnection.h; sourceTree = "<group>"; };
+		82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLNonCachingHTTPConnection.m; sourceTree = "<group>"; };
+		82DFCDCA1AFE4D3C00D71740 /* BCLRedirectingURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLRedirectingURLCache.h; sourceTree = "<group>"; };
+		82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCache.m; sourceTree = "<group>"; };
+		82DFCDCC1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLRedirectingURLCacheRedirectionRule.h; sourceTree = "<group>"; };
+		82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheRedirectionRule.m; sourceTree = "<group>"; };
+		82DFCDCE1AFE4D3C00D71740 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLNonCachingHTTPConnectionTests.m; sourceTree = "<group>"; };
+		82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheRewriteRuleTests.m; sourceTree = "<group>"; };
+		82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheTests.m; sourceTree = "<group>"; };
+		82DFCDD71AFE4D4700D71740 /* url-cache.redirects */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "url-cache.redirects"; sourceTree = "<group>"; };
+		82DFCDD91AFE4D4700D71740 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82DFCDE61AFE55D500D71740 /* BCLRedirectingURLCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BCLRedirectingURLCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		82DC82DC1AFD3BE9000E0552 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82DFCDE31AFE55D500D71740 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		82DC82D61AFD3BE9000E0552 = {
+			isa = PBXGroup;
+			children = (
+				82DFCDC71AFE4D3C00D71740 /* BCLRedirectingURLCache */,
+				82DFCDD31AFE4D4700D71740 /* BCLRedirectingURLCacheTests */,
+				82DC82E01AFD3BEA000E0552 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		82DC82E01AFD3BEA000E0552 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */,
+				82DFCDE61AFE55D500D71740 /* BCLRedirectingURLCacheTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		82DFCDC71AFE4D3C00D71740 /* BCLRedirectingURLCache */ = {
+			isa = PBXGroup;
+			children = (
+				82DFCDCA1AFE4D3C00D71740 /* BCLRedirectingURLCache.h */,
+				82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */,
+				82DFCDCC1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.h */,
+				82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */,
+				82DFCDC81AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.h */,
+				82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */,
+				82DFCDCE1AFE4D3C00D71740 /* main.m */,
+			);
+			path = BCLRedirectingURLCache;
+			sourceTree = "<group>";
+		};
+		82DFCDD31AFE4D4700D71740 /* BCLRedirectingURLCacheTests */ = {
+			isa = PBXGroup;
+			children = (
+				82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */,
+				82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */,
+				82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */,
+				82DFCDD71AFE4D4700D71740 /* url-cache.redirects */,
+				82DFCDD81AFE4D4700D71740 /* Supporting Files */,
+			);
+			path = BCLRedirectingURLCacheTests;
+			sourceTree = "<group>";
+		};
+		82DFCDD81AFE4D4700D71740 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				82DFCDD91AFE4D4700D71740 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		82DC82DE1AFD3BE9000E0552 /* BCLRedirectingURLCache */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82DC82E61AFD3BEA000E0552 /* Build configuration list for PBXNativeTarget "BCLRedirectingURLCache" */;
+			buildPhases = (
+				82DC82DB1AFD3BE9000E0552 /* Sources */,
+				82DC82DC1AFD3BE9000E0552 /* Frameworks */,
+				82DC82DD1AFD3BE9000E0552 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BCLRedirectingURLCache;
+			productName = BCLRoutingURLCache;
+			productReference = 82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */;
+			productType = "com.apple.product-type.tool";
+		};
+		82DFCDE51AFE55D500D71740 /* BCLRedirectingURLCacheTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82DFCDEC1AFE55D500D71740 /* Build configuration list for PBXNativeTarget "BCLRedirectingURLCacheTests" */;
+			buildPhases = (
+				82DFCDE21AFE55D500D71740 /* Sources */,
+				82DFCDE31AFE55D500D71740 /* Frameworks */,
+				82DFCDE41AFE55D500D71740 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BCLRedirectingURLCacheTests;
+			productName = BCLRedirectingURLCacheTests;
+			productReference = 82DFCDE61AFE55D500D71740 /* BCLRedirectingURLCacheTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		82DC82D71AFD3BE9000E0552 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Benedict Cohen";
+				TargetAttributes = {
+					82DC82DE1AFD3BE9000E0552 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					82DFCDE51AFE55D500D71740 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 82DC82DA1AFD3BE9000E0552 /* Build configuration list for PBXProject "BCLRedirectingURLCache" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 82DC82D61AFD3BE9000E0552;
+			productRefGroup = 82DC82E01AFD3BEA000E0552 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82DC82DE1AFD3BE9000E0552 /* BCLRedirectingURLCache */,
+				82DFCDE51AFE55D500D71740 /* BCLRedirectingURLCacheTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		82DFCDE41AFE55D500D71740 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82DFCDF41AFE561100D71740 /* url-cache.redirects in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		82DC82DB1AFD3BE9000E0552 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82DFCDD11AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */,
+				82DFCDCF1AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m in Sources */,
+				82DFCDD21AFE4D3C00D71740 /* main.m in Sources */,
+				82DFCDD01AFE4D3C00D71740 /* BCLRedirectingURLCache.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82DFCDE21AFE55D500D71740 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m in Sources */,
+				82DFCDF71AFE563D00D71740 /* BCLNonCachingHTTPConnection.m in Sources */,
+				82DFCDF61AFE563D00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */,
+				82DFCDF31AFE560D00D71740 /* BCLRedirectingURLCacheTests.m in Sources */,
+				82DFCDF11AFE560D00D71740 /* BCLNonCachingHTTPConnectionTests.m in Sources */,
+				82DFCDF51AFE563D00D71740 /* BCLRedirectingURLCache.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		82DC82E41AFD3BEA000E0552 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		82DC82E51AFD3BEA000E0552 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		82DC82E71AFD3BEA000E0552 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = BCLRedirectingURLCache;
+			};
+			name = Debug;
+		};
+		82DC82E81AFD3BEA000E0552 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = BCLRedirectingURLCache;
+			};
+			name = Release;
+		};
+		82DFCDED1AFE55D500D71740 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "BCLRedirectingURLCacheTests/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		82DFCDEE1AFE55D500D71740 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "BCLRedirectingURLCacheTests/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		82DC82DA1AFD3BE9000E0552 /* Build configuration list for PBXProject "BCLRedirectingURLCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82DC82E41AFD3BEA000E0552 /* Debug */,
+				82DC82E51AFD3BEA000E0552 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82DC82E61AFD3BEA000E0552 /* Build configuration list for PBXNativeTarget "BCLRedirectingURLCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82DC82E71AFD3BEA000E0552 /* Debug */,
+				82DC82E81AFD3BEA000E0552 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82DFCDEC1AFE55D500D71740 /* Build configuration list for PBXNativeTarget "BCLRedirectingURLCacheTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82DFCDED1AFE55D500D71740 /* Debug */,
+				82DFCDEE1AFE55D500D71740 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 82DC82D71AFD3BE9000E0552 /* Project object */;
+}

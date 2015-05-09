@@ -1,0 +1,14 @@
+# url-cache.redirects
+# -------------------
+#
+# Column 1: Method to redirect on. * is wildcard
+# Column 2: A regular expression to match incoming URLs against
+# Column 3: The pattern used to create new URL if a URL matches
+#
+# - Whitespace is not allowed in any values but can be used liberally else where.
+# - Rules are matched in the order specified.
+#
+
+
+*   https?://(example\.com)/online-categories         Contents/Info.plist
+*   https?://fruitshop\.com(.*)                       http://apple.com$1
