@@ -19,7 +19,7 @@
 
 
 
-void *scheduleReadStream(void *replyStream)
+void *readStreamMain(void *replyStream)
 {
     CFRunLoopRef runloop = CFRunLoopGetCurrent();
     CFReadStreamScheduleWithRunLoop(replyStream, runloop, kCFRunLoopCommonModes);
@@ -29,9 +29,9 @@ void *scheduleReadStream(void *replyStream)
 
 
 
-void MyReadCallback(CFReadStreamRef stream, CFStreamEventType type, void *userData)
+void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void *connectionRef)
 {
-    BCLNonCachingHTTPConnection *connection = (__bridge BCLNonCachingHTTPConnection *)userData;
+    BCLNonCachingHTTPConnection *connection = (__bridge BCLNonCachingHTTPConnection *)connectionRef;
     switch (type) {
         case kCFStreamEventNone:
             break;
@@ -40,11 +40,10 @@ void MyReadCallback(CFReadStreamRef stream, CFStreamEventType type, void *userDa
             break;
 
         case kCFStreamEventHasBytesAvailable: {
-#pragma message "TODO: What's a sensible value for the buffer size?"
-#define READ_SIZE 256
-            UInt8 buffer[READ_SIZE];
+            const int bufferSize = 1024;
+            UInt8 buffer[bufferSize];
             //   leave 1 byte for a trailing null.
-            CFIndex bytesRead = CFReadStreamRead(stream, buffer, READ_SIZE-1);
+            CFIndex bytesRead = CFReadStreamRead(stream, buffer, bufferSize-1);
             [connection.responseBodyData appendBytes:buffer length:bytesRead];
             break;
         }
@@ -59,19 +58,17 @@ void MyReadCallback(CFReadStreamRef stream, CFStreamEventType type, void *userDa
         case kCFStreamEventEndEncountered:
             CFRunLoopStop(CFRunLoopGetCurrent());
             break;
-
     }
-    
 }
 
 
 
 @implementation BCLNonCachingHTTPConnection
 
-+(void)sendSynchronousURLRequest:(NSURLRequest *)request completionHandler:(void(^)(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error))completionHandler
++(NSData *)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error
 {
     BCLNonCachingHTTPConnection *connection = [[BCLNonCachingHTTPConnection alloc] initWithURLRequest:request];
-    [connection sendSynchronously:completionHandler];
+    return [connection sendSynchronouslyAndReturnResponse:response error:error];
 }
 
 
@@ -94,70 +91,94 @@ void MyReadCallback(CFReadStreamRef stream, CFStreamEventType type, void *userDa
 
 
 
--(void)sendSynchronously:(void(^)(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error))completionHandler
+-(CFHTTPMessageRef)createMessage
 {
-    NSParameterAssert(completionHandler);
-
-    //Create request
-    CFStringRef requestMethod = (__bridge CFStringRef)self.URLRequest.HTTPMethod;
-    CFURLRef url = (__bridge CFURLRef)self.URLRequest.URL;
+    NSURLRequest *originalRequest = self.URLRequest;
+    CFStringRef requestMethod = (__bridge CFStringRef)originalRequest.HTTPMethod;
+    CFURLRef url = (__bridge CFURLRef)originalRequest.URL;
     CFHTTPMessageRef request = CFHTTPMessageCreateRequest(kCFAllocatorDefault, requestMethod, url, kCFHTTPVersion1_1);
 
-    //    //Headers
-    //    CFStringRef headerFieldName = CFSTR("X-My-Favorite-Field");
-    //    CFStringRef headerFieldValue = CFSTR("Dreams");
-    //    CFHTTPMessageSetHeaderFieldValue(myRequest, headerFieldName, headerFieldValue);
+    //Headers
+    [originalRequest.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *headerName, NSString *headerValue, BOOL *stop) {
+        CFHTTPMessageSetHeaderFieldValue(request, (__bridge CFStringRef)headerName, (__bridge CFStringRef)headerValue);
+    }];
 
-    //    //Body
-    //    CFStringRef bodyString = CFSTR(""); // Usually used for POST data
-    //    CFDataRef bodyData = CFStringCreateExternalRepresentation(kCFAllocatorDefault, bodyString, kCFStringEncodingUTF8, 0);
-    //    CFDataRef bodyDataExt = CFStringCreateExternalRepresentation(kCFAllocatorDefault, bodyData, kCFStringEncodingUTF8, 0);
-    //    CFHTTPMessageSetBody(myRequest, bodyDataExt);
-
-    //Create a stream with the request and enqueue it
-    CFReadStreamRef replyStream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
-    CFReadStreamSetProperty(replyStream, kCFStreamPropertyHTTPShouldAutoredirect, kCFBooleanTrue);
-    CFReadStreamOpen(replyStream);
-
-    CFStreamClientContext context = {.info = (__bridge void *)self};
-    BOOL didEnqueue = CFReadStreamSetClient(replyStream, kCFStreamEventHasBytesAvailable | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, MyReadCallback, &context);
-    if (didEnqueue) {
-        /* this variable is our reference to the second thread */
-        pthread_t inc_x_thread;
-
-        /* create a second thread which executes inc_x(&x) */
-        if(pthread_create(&inc_x_thread, NULL, scheduleReadStream, replyStream) != 0) {
-            return;
-        }
-
-        /* wait for the second thread to finish */
-        if(pthread_join(inc_x_thread, NULL) != 0) {
-            return;
-        }
+    //Body
+    if (originalRequest.HTTPBody != nil) {
+        CFHTTPMessageSetBody(request, (__bridge CFDataRef)originalRequest.HTTPBody);
     }
 
-    CFHTTPMessageRef response = (CFHTTPMessageRef)CFReadStreamCopyProperty(replyStream, kCFStreamPropertyHTTPResponseHeader);
-    CFDictionaryRef headers = CFHTTPMessageCopyAllHeaderFields(response);
-    CFStringRef statusLine = CFHTTPMessageCopyResponseStatusLine(response);
-    CFIndex  statusCode = CFHTTPMessageGetResponseStatusCode(response);
-    NSString *version = ({
-        NSRange whitespaceRange = [(__bridge NSString *)statusLine rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        [(__bridge NSString *)statusLine substringToIndex:whitespaceRange.location];
-    });
-    NSURL *responseURL = self.URLRequest.URL; //TODO: We should get the actual URL which will be different due to redirects.
-    NSURLResponse *URLResponse = [[NSHTTPURLResponse alloc] initWithURL:responseURL statusCode:statusCode HTTPVersion:version headerFields:(__bridge NSDictionary *)headers];
-    NSError *error = nil; //TODO:
-    BOOL didSucceed = YES; //TODO:
+    return request;
+}
+
+
+
+-(NSError *)enqueueOpenedStreamAndWaitForCompletion:(CFReadStreamRef)stream
+{
+    //Enqueue the stream and wait for it to complete
+    CFStreamClientContext context = {.info = (__bridge void *)self};
+    BOOL didEnqueue = CFReadStreamSetClient(stream, kCFStreamEventHasBytesAvailable | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, readStreamEventHandler, &context);
+    if (!didEnqueue) {
+        NSAssert(NO, @"Failed to add client for network stream.");
+        return nil;
+    }
+
+    pthread_t streamThread;
+    if(pthread_create(&streamThread, NULL, readStreamMain, stream) != 0) {
+        NSAssert(NO, @"Unable to create thread for network request.");
+        return nil;
+    }
+
+    if(pthread_join(streamThread, NULL) != 0) {
+        NSAssert(NO, @"Unable to join thread for network request.");
+        return nil;
+    }
+
+    //Get error from the stream
+    return (__bridge_transfer NSError *) CFReadStreamCopyError(stream);
+}
+
+
+
+-(NSData *)sendSynchronouslyAndReturnResponse:(NSURLResponse **)outResponse error:(NSError **)outError
+{
+    //Create request and a stream for it
+    CFHTTPMessageRef request = [self createMessage];
+    CFReadStreamRef httpStream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request); //We could cast this to an NSInputStream but that would get messy when accessing properties.
+    CFReadStreamSetProperty(httpStream, kCFStreamPropertyHTTPShouldAutoredirect, kCFBooleanTrue);
+    CFReadStreamOpen(httpStream);
+
+    //Get the data from the stream
+    NSError *error = [self enqueueOpenedStreamAndWaitForCompletion:httpStream];
+
+    //Create NSURLResponse
+    if (error == nil && outResponse != NULL) {
+        NSURL *finalURL = (__bridge_transfer NSURL *)CFReadStreamCopyProperty(httpStream, kCFStreamPropertyHTTPFinalURL);
+
+        CFHTTPMessageRef response = (CFHTTPMessageRef)CFReadStreamCopyProperty(httpStream, kCFStreamPropertyHTTPResponseHeader);
+        CFIndex statusCode = CFHTTPMessageGetResponseStatusCode(response);
+        NSDictionary *headers = (__bridge_transfer NSDictionary *)CFHTTPMessageCopyAllHeaderFields(response);
+        NSString *statusLine = (__bridge_transfer NSString *)CFHTTPMessageCopyResponseStatusLine(response);
+        NSString *version = ({
+            NSRange whitespaceRange = [statusLine rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [statusLine substringToIndex:whitespaceRange.location];
+        });
+        *outResponse = [[NSHTTPURLResponse alloc] initWithURL:finalURL statusCode:statusCode HTTPVersion:version headerFields:headers];
+
+        //Tidy up
+        if (response) CFRelease(response);
+    }
 
     //Tidy up
-    CFRelease(replyStream);
-    CFRelease(request);
-    CFRelease(response);
-    CFRelease(headers);
-    CFRelease(statusLine);
+    if (request)    CFRelease(request);
+    if (httpStream) CFRelease(httpStream);
 
     //Done!
-    completionHandler(didSucceed, self.responseBodyData, URLResponse, error);
+    if (outError != nil) {
+        *outError = error;
+    }
+    BOOL didSucceed = (error == nil);
+    return (didSucceed) ? self.responseBodyData : nil;
 }
 
 @end

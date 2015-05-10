@@ -12,11 +12,11 @@
 
 @interface BCLNonCachingHTTPConnection : NSObject
 
-+(void)sendSynchronousURLRequest:(NSURLRequest *)request completionHandler:(void(^)(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error))completionHandler;
++(NSData *)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error;
 
 -(instancetype)initWithURLRequest:(NSURLRequest *)request NS_DESIGNATED_INITIALIZER;
 @property(atomic, readonly) NSURLRequest *URLRequest;
 
--(void)sendSynchronously:(void(^)(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+-(NSData *)sendSynchronouslyAndReturnResponse:(NSURLResponse **)response error:(NSError **)error;
 
 @end
