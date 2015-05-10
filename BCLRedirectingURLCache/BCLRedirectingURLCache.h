@@ -12,7 +12,7 @@
 
 @protocol BCLNonCachingHTTPConnectionService <NSObject>
 
--(void)sendSynchronousURLRequest:(NSURLRequest *)request completionHandler:(void(^)(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+-(NSData *)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error;
 
 @end
 
@@ -20,12 +20,13 @@
 
 @interface BCLRedirectingURLCache : NSURLCache
 
--(instancetype)initWithParentCache:(NSURLCache *)parentCache rewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler NS_DESIGNATED_INITIALIZER;
++(instancetype)cacheWithParentCache:(NSURLCache *)parentCache rewriteRulesMainBundleFileName:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler;
++(instancetype)cacheWithParentCache:(NSURLCache *)parentCache rewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler;
+-(instancetype)initWithParentCache:(NSURLCache *)parentCache rewriteRules:(NSArray *)rewriteRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler NS_DESIGNATED_INITIALIZER;
 
 @property(atomic, readonly) NSURLCache *parentCache;
 
-@property(atomic, readonly) NSString *rewriteRulesPath;
-@property(atomic, readonly) NSString *resourceRootPath;
+@property(atomic, readonly) NSArray *rewriteRules;
 @property(atomic, readonly) NSCachedURLResponse *(^defaultResponseHandler)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper);
 
 @end
