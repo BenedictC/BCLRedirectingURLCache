@@ -16,14 +16,15 @@ extern NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard;
 
 @interface BCLRedirectingURLCacheRedirectionRule : NSObject
 
-+(NSArray *)rewriteRulesFromFile:(NSString *)path;
-+(NSArray *)rewriteRulesFromString:(NSString *)string;
++(NSArray *)rewriteRulesFromFile:(NSString *)path baseURL:(NSURL *)baseURL;
++(NSArray *)rewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL;
 
--(instancetype)initWithMethod:(NSString *)method pathMatchingRegex:(NSString *)regex replacementPattern:(NSString *)replacementPattern;
+-(instancetype)initWithMethod:(NSString *)method pathMatchingRegex:(NSString *)regex replacementPattern:(NSString *)replacementPattern baseURL:(NSURL *)baseURL;
 
 @property(readonly) NSString *method;
 @property(readonly) NSString *pathMatchingRegex;
 @property(readonly) NSString *replacementPattern;
+@property(readonly) NSURL *baseURL;
 
 -(NSURL *)resolvedURLForRequest:(NSURLRequest *)request;
 
