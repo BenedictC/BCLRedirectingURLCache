@@ -17,24 +17,98 @@
 
 
 
-
 @implementation BCLNonCachingHTTPConnectionTests
 
-- (void)testConnection
+- (void)testDirect200
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.com"]];
-    BCLNonCachingHTTPConnection *connection = [[BCLNonCachingHTTPConnection alloc] initWithURLRequest:request];
-    XCTestExpectation *expectation = [self expectationWithDescription:@""];
+    //Give
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.com/ipad"]];
 
-    [connection sendSynchronously:^(BOOL didSucceed, NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@\n%@", response, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        [expectation fulfill];
-    }];
+    //When
+    id actualResponse = nil;
+    NSError *actualError = nil;
+    NSData *actualData = [BCLNonCachingHTTPConnection sendSynchronousRequest:request returningResponse:&actualResponse error:&actualError];
 
-    [self waitForExpectationsWithTimeout:20 handler:NULL];
+    //Then
+    id expectedResponse = nil;
+    NSError *expectedError = nil;
+    NSData *expectedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&expectedResponse error:&expectedError];
+
+    XCTAssertEqualObjects(actualData, expectedData);
+    XCTAssertEqualObjects(actualError, expectedError);
+    XCTAssertEqualObjects([actualResponse URL], [expectedResponse URL]);
+    XCTAssertEqual([actualResponse statusCode], [expectedResponse statusCode]);
+    //We don't compare the response headers because ???
+}
+
+
+
+- (void)test30xThen200
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.co.uk/ipad"]];
+
+    //When
+    id actualResponse = nil;
+    NSError *actualError = nil;
+    NSData *actualData = [BCLNonCachingHTTPConnection sendSynchronousRequest:request returningResponse:&actualResponse error:&actualError];
+
+    //Then
+    id expectedResponse = nil;
+    NSError *expectedError = nil;
+    NSData *expectedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&expectedResponse error:&expectedError];
+
+    XCTAssertEqualObjects(actualData, expectedData);
+    XCTAssertEqualObjects(actualError, expectedError);
+    XCTAssertEqualObjects([actualResponse URL], [expectedResponse URL]);
+    XCTAssertEqual([actualResponse statusCode], [expectedResponse statusCode]);
+    //We don't compare the response headers because ???
+}
+
+
+
+- (void)test404
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.com/nexus6"]];
+
+    //When
+    id actualResponse = nil;
+    NSError *actualError = nil;
+    NSData *actualData = [BCLNonCachingHTTPConnection sendSynchronousRequest:request returningResponse:&actualResponse error:&actualError];
+
+    //Then
+    id expectedResponse = nil;
+    NSError *expectedError = nil;
+    NSData *expectedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&expectedResponse error:&expectedError];
+
+    XCTAssertEqualObjects(actualData, expectedData);
+    XCTAssertEqualObjects(actualError, expectedError);
+    XCTAssertEqualObjects([actualResponse URL], [expectedResponse URL]);
+    XCTAssertEqual([actualResponse statusCode], [expectedResponse statusCode]);
+    //We don't compare the response headers because ???
+}
+
+
+
+-(void)testInvalidURL
+{
+    //Given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://appledotcom/nexus6"]];
+
+    //When
+    id actualResponse = nil;
+    NSError *actualError = nil;
+    NSData *actualData = [BCLNonCachingHTTPConnection sendSynchronousRequest:request returningResponse:&actualResponse error:&actualError];
+
+    //Then
+    id expectedResponse = nil;
+    NSError *expectedError = nil;
+    NSData *expectedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&expectedResponse error:&expectedError];
+
+    XCTAssertEqualObjects(actualData, expectedData);
+    XCTAssertEqual(actualError != nil, expectedError != nil);
+    XCTAssertEqualObjects([actualResponse URL], [expectedResponse URL]);
+    XCTAssertEqual([actualResponse statusCode], [expectedResponse statusCode]);
+    //We don't compare the response headers because ???
 }
 
 @end
-
-
-

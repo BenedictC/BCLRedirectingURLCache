@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Benedict Cohen. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "BCLRedirectingURLCache.h"
 #import <XCTest/XCTest.h>
 
 
@@ -19,9 +19,10 @@
 
 @implementation BCLRedirectingURLCacheTests
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
+//TODO: Test factory methods
+
+//TODO: Test different protocols load correctly
+//TODO: Test behaviour when unable to load subsitute resource
+//TODO: Test parent cache functionality
 
 @end
