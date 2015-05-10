@@ -10,5 +10,6 @@
 #
 
 
+
 *   https?://(example\.com)/online-categories         Contents/Info.plist
 *   https?://fruitshop\.com(.*)                       http://apple.com$1
