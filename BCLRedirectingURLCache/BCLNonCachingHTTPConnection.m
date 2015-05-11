@@ -91,7 +91,7 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
 
 
 
--(CFHTTPMessageRef)createMessage
+-(CFHTTPMessageRef)createMessage CF_RETURNS_RETAINED
 {
     NSURLRequest *originalRequest = self.URLRequest;
     CFStringRef requestMethod = (__bridge CFStringRef)originalRequest.HTTPMethod;
