@@ -23,27 +23,28 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
 
 @implementation BCLRedirectingURLCacheRedirectionRule
 
-#pragma mark - parsing
-+(NSArray *)rewriteRulesFromFile:(NSString *)path baseURL:(NSURL *)baseURL
+#pragma mark - factory methods
++(NSArray *)rewriteRulesFromContentsOfFile:(NSString *)path baseURL:(NSURL *)baseURL
 {
     if (path == nil) {
         return @[];
     }
 
     NSString *rewriteRulesContent = [NSString stringWithContentsOfFile:path usedEncoding:NULL error:NULL];
-    return [self rewriteRulesFromString:rewriteRulesContent baseURL:baseURL path:path];
+    return [self scanRewriteRulesFromString:rewriteRulesContent baseURL:baseURL path:path];
 }
 
 
 
 +(NSArray *)rewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL
 {
-    return [self rewriteRulesFromString:string baseURL:baseURL path:nil];
+    return [self scanRewriteRulesFromString:string baseURL:baseURL path:nil];
 }
 
 
 
-+(NSArray *)rewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL path:(NSString *)rewriteRulesPath
+#pragma mark - parsing
++(NSArray *)scanRewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL path:(NSString *)rewriteRulesPath
 {
     NSParameterAssert(string);
     NSScanner *scanner = [NSScanner scannerWithString:string];
@@ -52,7 +53,7 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
     NSMutableArray *rewriteRules = [NSMutableArray new];
     while ([self scanCommentsAndWhitespace:scanner]) {
         NSString *method = nil;
-        BOOL didScanMethod = [self scanRequestMethodFromScanner:scanner intoMethod:&method];
+        BOOL didScanMethod = [self scanRequestMethodFromScanner:scanner intoString:&method];
         NSAssert(didScanMethod, @"Failed to scan method for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
@@ -63,10 +64,9 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
-        NSString *escapedReplacementPattern = nil;
-        BOOL didScanReplacementPattern = [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&escapedReplacementPattern];
+        NSString *replacementPattern = nil;
+        BOOL didScanReplacementPattern = [self scanReplacementPatternFromScanner:scanner intoString:&replacementPattern];
         NSAssert(didScanReplacementPattern, @"Failed to scan replacementPattern for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
-        NSString *replacementPattern = [self replacementPatternFromEscapedReplacementPattern:escapedReplacementPattern];
 
         //Scan trailing comment and the terminal new line
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
@@ -86,10 +86,47 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
 
 
 
-+(NSString *)replacementPatternFromEscapedReplacementPattern:(NSString *)escapedPattern
++(BOOL)scanCommentsAndWhitespace:(NSScanner *)scanner
 {
-    NSScanner *scanner = [NSScanner scannerWithString:escapedPattern];
+    //Gobble up leading whitespace
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
 
+    while ([scanner scanString:@"#" intoString:NULL]) {
+        [scanner scanUpToString:@"\n" intoString:NULL];
+    }
+
+    //Gobble up trailing whitespace
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
+
+    return ![scanner isAtEnd];
+}
+
+
+
++(BOOL)scanRequestMethodFromScanner:(NSScanner *)scanner intoString:(NSString **)method
+{
+    NSParameterAssert(method);
+
+    if (   [scanner scanString:BCLRedirectingURLCacheRedirectionRuleMethodWildcard intoString:method]
+        || [scanner scanCharactersFromSet:[NSCharacterSet uppercaseLetterCharacterSet] intoString:method]) {
+        //If there's no whitespace then the scan failed
+        BOOL didScanWhitespace = [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
+        return didScanWhitespace;
+    }
+
+    return NO;
+}
+
+
+
++(BOOL)scanReplacementPatternFromScanner:(NSScanner *)escappedScanner intoString:(NSString **)outReplacementPattern
+{
+    NSString *escapedPattern = nil;
+    if (![escappedScanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&escapedPattern]) {
+        return NO;
+    }
+
+    NSScanner *scanner = [NSScanner scannerWithString:escapedPattern];
     NSMutableString *replacementPattern = [NSMutableString new];
     NSString *buffer = nil;
     while ([scanner scanUpToString:@"\\" intoString:&buffer]) {
@@ -115,41 +152,8 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
         }
     }
 
-    return replacementPattern;
-}
-
-
-
-
-+(BOOL)scanCommentsAndWhitespace:(NSScanner *)scanner
-{
-    //Gobble up leading whitespace
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
-
-    while ([scanner scanString:@"#" intoString:NULL]) {
-        [scanner scanUpToString:@"\n" intoString:NULL];
-    }
-
-    //Gobble up trailing whitespace
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
-
-    return ![scanner isAtEnd];
-}
-
-
-
-+(BOOL)scanRequestMethodFromScanner:(NSScanner *)scanner intoMethod:(NSString **)method
-{
-    NSParameterAssert(method);
-
-    if (   [scanner scanString:BCLRedirectingURLCacheRedirectionRuleMethodWildcard intoString:method]
-        || [scanner scanCharactersFromSet:[NSCharacterSet uppercaseLetterCharacterSet] intoString:method]) {
-        //If there's no whitespace then the scan failed
-        BOOL didScanWhitespace = [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
-        return didScanWhitespace;
-    }
-
-    return NO;
+    *outReplacementPattern = [replacementPattern copy];
+    return YES;
 }
 
 
