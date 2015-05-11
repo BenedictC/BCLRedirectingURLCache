@@ -44,29 +44,29 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
 
 
 #pragma mark - parsing
+#define BCLRaiseIf(CONDITION, FORMAT, ...) if (!(CONDITION)) {     [NSException raise:NSInvalidArgumentException format:FORMAT, __VA_ARGS__ ]; }
 +(NSArray *)scanRewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL path:(NSString *)rewriteRulesPath
 {
     NSParameterAssert(string);
     NSScanner *scanner = [NSScanner scannerWithString:string];
     scanner.charactersToBeSkipped = nil;
-
     NSMutableArray *rewriteRules = [NSMutableArray new];
     while ([self scanCommentsAndWhitespace:scanner]) {
         NSString *method = nil;
         BOOL didScanMethod = [self scanRequestMethodFromScanner:scanner intoString:&method];
-        NSAssert(didScanMethod, @"Failed to scan method for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLRaiseIf(didScanMethod, @"Failed to scan method for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
         NSString *regex = nil;
-        BOOL didScanRegex = [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&regex];
-        NSAssert(didScanRegex, @"Failed to scan regex for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BOOL didScanRegex = [self scanPathMatchingRegexFromScanner:scanner intoString:&regex];
+        BCLRaiseIf(didScanRegex, @"Failed to scan regex for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
         NSString *replacementPattern = nil;
         BOOL didScanReplacementPattern = [self scanReplacementPatternFromScanner:scanner intoString:&replacementPattern];
-        NSAssert(didScanReplacementPattern, @"Failed to scan replacementPattern for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLRaiseIf(didScanReplacementPattern, @"Failed to scan replacementPattern for RewriteRule at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         //Scan trailing comment and the terminal new line
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
@@ -74,7 +74,7 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
             [scanner scanUpToString:@"\n" intoString:NULL];
         }
         BOOL didScanNewline = [scanner scanString:@"\n" intoString:NULL];
-        NSAssert(didScanNewline || scanner.isAtEnd, @"Unexpected text found at end of RewriteRule line at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLRaiseIf(didScanNewline || scanner.isAtEnd, @"Unexpected text found at end of RewriteRule line at character %@ of %@: %@", @(scanner.scanLocation), rewriteRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         //Add the scanned rule
         BCLRedirectingURLCacheRedirectionRule *rewriteRule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:method pathMatchingRegex:regex replacementPattern:replacementPattern baseURL:baseURL];
@@ -99,6 +99,13 @@ NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard = @"*";
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
 
     return ![scanner isAtEnd];
+}
+
+
+
++(BOOL)scanPathMatchingRegexFromScanner:(NSScanner *)scanner intoString:(NSString **)regex
+{
+    return [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:regex];
 }
 
 
