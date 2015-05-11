@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82790B651B009B4800AA40FF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82790B641B009B4800AA40FF /* LICENSE */; };
 		82DFCDCF1AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */; };
 		82DFCDD01AFE4D3C00D71740 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
 		82DFCDD11AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */; };
@@ -33,6 +34,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		82790B641B009B4800AA40FF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BCLRedirectingURLCache.podspec; sourceTree = "<group>"; };
+		82790B671B009B7000AA40FF /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BCLRedirectingURLCache; sourceTree = BUILT_PRODUCTS_DIR; };
 		82DFCDC81AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLNonCachingHTTPConnection.h; sourceTree = "<group>"; };
 		82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLNonCachingHTTPConnection.m; sourceTree = "<group>"; };
@@ -67,9 +71,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		82790B681B009B7400AA40FF /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				82790B641B009B4800AA40FF /* LICENSE */,
+				82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */,
+				82790B671B009B7000AA40FF /* TODO.md */,
+			);
+			name = Docs;
+			sourceTree = "<group>";
+		};
 		82DC82D61AFD3BE9000E0552 = {
 			isa = PBXGroup;
 			children = (
+				82790B681B009B7400AA40FF /* Docs */,
 				82DFCDC71AFE4D3C00D71740 /* BCLRedirectingURLCache */,
 				82DFCDD31AFE4D4700D71740 /* BCLRedirectingURLCacheTests */,
 				82DC82E01AFD3BEA000E0552 /* Products */,
@@ -102,11 +117,11 @@
 		82DFCDD31AFE4D4700D71740 /* BCLRedirectingURLCacheTests */ = {
 			isa = PBXGroup;
 			children = (
-				82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */,
-				82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */,
 				82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */,
-				82DFCDD71AFE4D4700D71740 /* url-cache.redirects */,
+				82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */,
+				82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */,
 				82DFCDD81AFE4D4700D71740 /* Supporting Files */,
+				82DFCDD71AFE4D4700D71740 /* url-cache.redirects */,
 			);
 			path = BCLRedirectingURLCacheTests;
 			sourceTree = "<group>";
@@ -196,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82790B651B009B4800AA40FF /* LICENSE in Resources */,
 				82DFCDF41AFE561100D71740 /* url-cache.redirects in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,6 +397,7 @@
 				82DFCDEE1AFE55D500D71740 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
