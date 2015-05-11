@@ -12,9 +12,10 @@ Pod::Spec.new do |s|
   s.summary      = "A NSURLCache subclass for redirecting requests."
 
   s.description  = <<-DESC
-BCJSONReader is a library for processing the crazy JSON structures that exist in the real world. Its key features are:
-+ Flexible. Provides functionality for handling many JSON usage styles.
-+ Extensible. Easy to integrate own code and still use BCJSONReader intrastructure.
+BCLRedirectingURLCache allows requests to be redirected to local or remote files. Potential uses:
++ Remove dependancies on in-development web services
++ Testing of network code
++ Provide static content to web views.
 
                    DESC
 
@@ -65,7 +66,7 @@ BCJSONReader is a library for processing the crazy JSON structures that exist in
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/BenedictC/BCJSONReader.git", :tag => "0.4.1" }
+  s.source       = { :git => "https://github.com/BenedictC/BCLRedirectingURLCache.git", :tag => "0.1" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -76,7 +77,7 @@ BCJSONReader is a library for processing the crazy JSON structures that exist in
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "BCJSONReader", "BCJSONReader/**/*.{h,m}"
+  s.source_files  = "BCLRedirectingURLCache", "BCLRedirectingURLCache/**/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "**/*.h"
