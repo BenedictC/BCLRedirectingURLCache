@@ -19,10 +19,20 @@
 
 @implementation BCLRedirectingURLCacheTests
 
-//TODO: Test factory methods
+-(void)testRedirectToHTTPSResource
+{
+    //Given
+//    NSString *rule = @"GET ";
 
-//TODO: Test different protocols load correctly
-//TODO: Test behaviour when unable to load subsitute resource
-//TODO: Test parent cache functionality
+    //When
+
+    //Then
+}
+
+#pragma message "TODO: Test factory methods"
+
+#pragma message "TODO: Test different protocols load correctly"
+#pragma message "TODO: Test behaviour when unable to load subsitute resource"
+//#pragma message "TODO: Test parent cache functionality"
 
 @end

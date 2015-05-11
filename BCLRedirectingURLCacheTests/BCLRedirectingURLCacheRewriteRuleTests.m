@@ -125,9 +125,9 @@
 
 
 //Functionality tests
-//TODO: absolute path resolution
-//TODO: relative path resolution with baseURL
-//TODO: relative path resolution without baseURL
-//TODO: failing path resolution
+#pragma message "TODO: absolute path resolution"
+#pragma message "TODO: relative path resolution with baseURL"
+#pragma message "TODO: relative path resolution without baseURL"
+#pragma message "TODO: failing path resolution"
 
 @end

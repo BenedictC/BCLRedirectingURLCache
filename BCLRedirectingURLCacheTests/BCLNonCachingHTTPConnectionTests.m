@@ -43,6 +43,30 @@
 
 
 
+//- (void)testDirect200HTTPS
+//{
+//    //Give
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://twitter.com/"]];
+//
+//    //When
+//    id actualResponse = nil;
+//    NSError *actualError = nil;
+//    NSData *actualData = [BCLNonCachingHTTPConnection sendSynchronousRequest:request returningResponse:&actualResponse error:&actualError];
+//
+//    //Then
+//    id expectedResponse = nil;
+//    NSError *expectedError = nil;
+//    NSData *expectedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&expectedResponse error:&expectedError];
+//
+//    XCTAssertEqualObjects(actualData, expectedData);
+//    XCTAssertEqualObjects(actualError, expectedError);
+//    XCTAssertEqualObjects([actualResponse URL], [expectedResponse URL]);
+//    XCTAssertEqual([actualResponse statusCode], [expectedResponse statusCode]);
+//    //We don't compare the response headers because ???
+//}
+
+
+
 - (void)test30xThen200
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.co.uk/ipad"]];
