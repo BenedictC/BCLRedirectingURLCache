@@ -6,7 +6,18 @@
 //  Copyright (c) 2015 Benedict Cohen. All rights reserved.
 //
 
+/*
+ 
+ TODO: Document rewrite file format
+
+ 
+ */
+
+
 #import <Foundation/Foundation.h>
+
+
+
 
 
 
@@ -20,11 +31,10 @@
 
 @interface BCLRedirectingURLCache : NSURLCache
 
-+(instancetype)cacheWithParentCache:(NSURLCache *)parentCache rewriteRulesMainBundleFileName:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler;
-+(instancetype)cacheWithParentCache:(NSURLCache *)parentCache rewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler;
--(instancetype)initWithParentCache:(NSURLCache *)parentCache rewriteRules:(NSArray *)rewriteRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler NS_DESIGNATED_INITIALIZER;
++(instancetype)cacheWithRewriteRulesFileNamed:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler;
++(instancetype)cacheWithRewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler;
 
-@property(atomic, readonly) NSURLCache *parentCache;
+-(instancetype)initWithRewriteRules:(NSArray *)rewriteRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultResponseHandler NS_DESIGNATED_INITIALIZER;
 
 @property(atomic, readonly) NSArray *rewriteRules;
 @property(atomic, readonly) NSCachedURLResponse *(^defaultResponseHandler)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper);
