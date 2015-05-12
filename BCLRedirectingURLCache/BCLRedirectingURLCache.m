@@ -28,7 +28,7 @@
 
 +(instancetype)cacheWithRewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
 {
-    NSURL *baseURL = (rewriteRulesPath != nil) ? [NSURL fileURLWithPath:rewriteRulesPath] : [[NSBundle mainBundle] bundleURL];
+    NSURL *baseURL = (rewriteRulesPath != nil) ? [NSURL fileURLWithPath:resourceRootPath] : [[NSBundle mainBundle] bundleURL];
     NSArray *rewriteRules = [BCLRedirectingURLCacheRedirectionRule rewriteRulesFromContentsOfFile:rewriteRulesPath baseURL:baseURL];
     return [[self alloc] initWithRewriteRules:rewriteRules defaultResponseHandler:defaultHandler];
 }
