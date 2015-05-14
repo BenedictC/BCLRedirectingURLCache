@@ -15,22 +15,22 @@
 @implementation BCLRedirectingURLCache
 
 #pragma mark - factory methods
-+(instancetype)cacheWithRewriteRulesFileNamed:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
++(instancetype)cacheWithRedirectRulesFileNamed:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    NSString *rewriteRulesPath = [bundle pathForResource:fileName ofType:nil];
+    NSString *redirectRulesPath = [bundle pathForResource:fileName ofType:nil];
     NSString *resourceRootPath = [bundle bundlePath];
 
-    return [BCLRedirectingURLCache cacheWithRewriteRulesPath:rewriteRulesPath resourceRootPath:resourceRootPath defaultResponseHandler:defaultHandler];
+    return [BCLRedirectingURLCache cacheWithRedirectRulesPath:redirectRulesPath resourceRootPath:resourceRootPath defaultResponseHandler:defaultHandler];
 }
 
 
 
-+(instancetype)cacheWithRewriteRulesPath:(NSString *)rewriteRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
++(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
 {
-    NSURL *baseURL = (rewriteRulesPath != nil) ? [NSURL fileURLWithPath:resourceRootPath] : [[NSBundle mainBundle] bundleURL];
-    NSArray *rewriteRules = [BCLRedirectingURLCacheRedirectionRule rewriteRulesFromContentsOfFile:rewriteRulesPath baseURL:baseURL];
-    return [[self alloc] initWithRewriteRules:rewriteRules defaultResponseHandler:defaultHandler];
+    NSURL *baseURL = (redirectRulesPath != nil) ? [NSURL fileURLWithPath:resourceRootPath] : [[NSBundle mainBundle] bundleURL];
+    NSArray *redirectRules = [BCLRedirectingURLCacheRedirectionRule redirectRulesFromContentsOfFile:redirectRulesPath baseURL:baseURL];
+    return [[self alloc] initWithRedirectRules:redirectRules defaultResponseHandler:defaultHandler];
 }
 
 
@@ -38,14 +38,14 @@
 #pragma mark - instance life cycle
 -(instancetype)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)path
 {
-    return [self initWithRewriteRules:nil defaultResponseHandler:NULL];
+    return [self initWithRedirectRules:nil defaultResponseHandler:NULL];
 }
 
 
 
--(instancetype)initWithRewriteRules:(NSArray *)rewriteRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultResponseHandler
+-(instancetype)initWithRedirectRules:(NSArray *)redirectRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultResponseHandler
 {
-    NSParameterAssert(rewriteRules || defaultResponseHandler);
+    NSParameterAssert(redirectRules || defaultResponseHandler);
     
     self = [super initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
 
@@ -53,7 +53,7 @@
         return nil;
     }
 
-    _rewriteRules = [rewriteRules copy];
+    _redirectRules = [redirectRules copy];
     _defaultResponseHandler = defaultResponseHandler;
 
     return self;
@@ -65,7 +65,7 @@
 - (NSCachedURLResponse *)cachedResponseForRequest:(NSURLRequest *)request
 {
     //Check the rules
-    for (BCLRedirectingURLCacheRedirectionRule *rule in self.rewriteRules) {
+    for (BCLRedirectingURLCacheRedirectionRule *rule in self.redirectRules) {
         NSURL *resolved = [rule resolvedURLForRequest:request];
         if (resolved != nil) {
 

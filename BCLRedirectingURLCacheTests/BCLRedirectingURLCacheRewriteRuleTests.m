@@ -31,12 +31,12 @@
     ;
 
     //When
-    NSArray *actualRules = [BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil];
+    NSArray *actualRules = [BCLRedirectingURLCacheRedirectionRule redirectRulesFromString:rules baseURL:nil];
 
     //Then
     NSArray *expectedRules = @[
-                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:@"GET" pathMatchingRegex:@".*online-categories.*" replacementPattern:@"online-categories.json" baseURL:nil],
-                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:@"GET" pathMatchingRegex:@"http://example\\.com" replacementPattern:@"lines.json" baseURL:nil]
+                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:@"GET" URLRegex:@".*online-categories.*"  URLReplacementPattern:@"online-categories.json" baseURL:nil],
+                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:@"GET" URLRegex:@"http://example\\.com"  URLReplacementPattern:@"lines.json" baseURL:nil],
                                ];
     XCTAssertEqualObjects(actualRules, expectedRules);
 }
@@ -54,12 +54,12 @@
     ;
 
     //When
-    NSArray *actualRules = [BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil];
+    NSArray *actualRules = [BCLRedirectingURLCacheRedirectionRule redirectRulesFromString:rules baseURL:nil];
 
     //Then
     NSArray *expectedRules = @[
-                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:@"GET" pathMatchingRegex:@".*online-categories.*" replacementPattern:@"online-categories.json" baseURL:nil],
-                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:@"GET" pathMatchingRegex:@"http://example\\.com" replacementPattern:@"lines.json" baseURL:nil]
+                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:@"GET" URLRegex:@".*online-categories.*"  URLReplacementPattern:@"online-categories.json" baseURL:nil],
+                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:@"GET" URLRegex:@"http://example\\.com"  URLReplacementPattern:@"lines.json" baseURL:nil]
                                ];
     XCTAssertEqualObjects(actualRules, expectedRules);
 }
@@ -74,7 +74,7 @@
     ;
 
     //When & Then
-    XCTAssertThrows([BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil]);
+    XCTAssertThrows([BCLRedirectingURLCacheRedirectionRule redirectRulesFromString:rules baseURL:nil]);
 }
 
 
@@ -87,47 +87,18 @@
     ;
 
     //When & Then
-    XCTAssertThrows([BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil]);
-}
-
-
-
--(void)testInvalidMethod
-{
-    //Given
-    NSString *rules = @""
-    "METH0D http://example\\.com    lines.json"
-    ;
-
-    //When & Then
-    XCTAssertThrows([BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil]);
-}
-
-
-
--(void)testWildcardMethodParsing
-{
-    //Given
-    NSString *rules = @""
-    "* .*online-categories.*  online-categories.json"
-    ;
-
-    //When
-    NSArray *actualRules = [BCLRedirectingURLCacheRedirectionRule rewriteRulesFromString:rules baseURL:nil];
-
-    //Then
-    NSArray *expectedRules = @[
-                               [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethod:BCLRedirectingURLCacheRedirectionRuleMethodWildcard pathMatchingRegex:@".*online-categories.*" replacementPattern:@"online-categories.json" baseURL:nil],
-                               ];
-    XCTAssertEqualObjects(actualRules, expectedRules);
+    XCTAssertThrows([BCLRedirectingURLCacheRedirectionRule redirectRulesFromString:rules baseURL:nil]);
 }
 
 
 
 //Functionality tests
+#pragma message "TODO: failing method resolution"
 #pragma message "TODO: absolute path resolution"
 #pragma message "TODO: relative path resolution with baseURL"
 #pragma message "TODO: relative path resolution without baseURL"
 #pragma message "TODO: failing path resolution"
+
+
 
 @end

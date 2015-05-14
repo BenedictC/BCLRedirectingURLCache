@@ -10,20 +10,16 @@
 
 
 
-extern NSString * const BCLRedirectingURLCacheRedirectionRuleMethodWildcard;
-
-
-
 @interface BCLRedirectingURLCacheRedirectionRule : NSObject
 
-+(NSArray *)rewriteRulesFromContentsOfFile:(NSString *)path baseURL:(NSURL *)baseURL;
-+(NSArray *)rewriteRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL;
++(NSArray *)redirectRulesFromContentsOfFile:(NSString *)path baseURL:(NSURL *)baseURL;
++(NSArray *)redirectRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL;
 
--(instancetype)initWithMethod:(NSString *)method pathMatchingRegex:(NSString *)regex replacementPattern:(NSString *)replacementPattern baseURL:(NSURL *)baseURL;
+-(instancetype)initWithMethodRegex:(NSString *)methodRegex URLRegex:(NSString *)URLRegex URLReplacementPattern:(NSString *)replacementPattern baseURL:(NSURL *)baseURL;
 
-@property(readonly) NSString *method;
-@property(readonly) NSString *pathMatchingRegex;
-@property(readonly) NSString *replacementPattern;
+@property(readonly) NSString *methodRegex;
+@property(readonly) NSString *URLRegex;
+@property(readonly) NSString *URLReplacementPattern;
 @property(readonly) NSURL *baseURL;
 
 -(NSURL *)resolvedURLForRequest:(NSURLRequest *)request;
