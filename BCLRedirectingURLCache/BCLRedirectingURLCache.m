@@ -26,10 +26,12 @@
 
 
 
-+(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
++(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath resourceRootPath:(NSString *)nullableResourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
 {
-    NSURL *baseURL = (redirectRulesPath != nil) ? [NSURL fileURLWithPath:resourceRootPath] : [[NSBundle mainBundle] bundleURL];
+    NSString *resourceRootPath = (nullableResourceRootPath != nil) ? nullableResourceRootPath : [redirectRulesPath stringByDeletingLastPathComponent];
+    NSURL *baseURL = [NSURL fileURLWithPath:resourceRootPath];
     NSArray *redirectRules = [BCLRedirectingURLCacheRedirectionRule redirectRulesFromContentsOfFile:redirectRulesPath baseURL:baseURL];
+
     return [[self alloc] initWithRedirectRules:redirectRules defaultResponseHandler:defaultHandler];
 }
 
