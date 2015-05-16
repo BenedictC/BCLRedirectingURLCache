@@ -72,7 +72,7 @@
         if (resolved != nil) {
 
             NSData *data =
-                ([resolved.scheme isEqualToString:@"http"] || [resolved.scheme isEqualToString:@"https"]) ? ({
+            ([resolved.scheme isEqualToString:@"http"] || [resolved.scheme isEqualToString:@"https"]) ? ({
                     NSMutableURLRequest *secondaryRequest = [request mutableCopy];
                     secondaryRequest.URL = resolved;
                     [BCLNonCachingHTTPConnection sendSynchronousRequest:secondaryRequest returningResponse:NULL error:NULL];
@@ -83,8 +83,7 @@
                 nil;
 
             if (data == nil) {
-                //TODO: Is it sensible to log this? What are the alernatives?
-                NSLog(@"%@: Unable to load data for redirected URLRequest. Rule: %@\nInital URL: %@\nRedirect URL:%@", NSStringFromClass(self.class), rule, request.URL, resolved);
+                [self log:@"%@: Unable to load data for redirected URLRequest. Rule: %@\nInital URL: %@\nRedirect URL:%@", NSStringFromClass(self.class), rule, request.URL, resolved];
                 return nil;
             }
 
@@ -110,6 +109,25 @@
     //Fallback to the parentCache
 //    return [self.parentCache cachedResponseForRequest:request];
     return nil;
+}
+
+
+
+#pragma mark - logging
+#define BCJ_PRINTF_FORMAT_STYLE(...) __attribute__((format(__NSString__,__VA_ARGS__)))
+-(void)log:(NSString *)format, ... BCJ_PRINTF_FORMAT_STYLE(1, 2)
+{
+    void (^logger)(NSString *message) = self.logHandler;
+    if (logger == NULL) {
+        return;
+    }
+
+    va_list args;
+    va_start(args, format);
+    NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+
+    logger(message);
 }
 
 
