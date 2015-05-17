@@ -69,6 +69,15 @@ static void (^ const BCLRedirectingURLCacheDefaultLogHandler)(NSString *message)
 
 
 @protocol BCLNonCachingHTTPConnectionService <NSObject>
+/**
+ Performs a synchronous load of the specified URL request without checking the URL cache.
+
+ @param request  The URL request to load.
+ @param response Out parameter for the URL response returned by the server. NULL is permitted.
+ @param error    Out parameter used if an error occurs while processing the request. NULL is permitted.
+
+ @return The downloaded data for the URL request. Returns nil if a connection could not be created or if the download fails.
+ */
 
 -(NSData *)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error;
 
@@ -78,13 +87,47 @@ static void (^ const BCLRedirectingURLCacheDefaultLogHandler)(NSString *message)
 
 @interface BCLRedirectingURLCache : NSURLCache
 
-+(instancetype)cacheWithRedirectRulesFileNamed:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler;
-+(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath resourceRootPath:(NSString *)resourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler;
+/**
+ Returns a new URL cache. Redirect rules are loaded from fileName in the main bundle and the resource root path is also
 
+ @param fileName       The name of the file in the main bundle that contains the redirect rules. `nil` is permitted.
+ @param defaultHandler A block for handling responses that do not match any of the redirect rules. `NULL` is permitted.
+
+ @return A new URL cache.
+ */
++(instancetype)cacheWithRedirectRulesFileNamed:(NSString *)fileName defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler;
+/**
+ Returns a new URL cache. Redirect rules are loaded from the file at redirectRulesPath. If baseURL is `nil` then it is assumed to be the parent folder of the redirectRulesPath.
+
+ @param redirectRulesPath The path of the file that contains the redirect rules. `nil` is permitted.
+ @param baseURL           An absolute URL that relative URLs are resolved against. `nil` is permitted.
+ @param defaultHandler    A block for handling responses that do not match any of the redirect rules. `NULL` is permitted.
+
+ @return A new URL cache.
+ */
++(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath baseURL:(NSURL *)baseURL defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler;
+
+/**
+ Returns a new URL cache object initialized with the given attributes.
+
+ @param redirectRules     An array of BCLRedirectingURLCacheRedirectionRule instances. `nil` is permitted.
+ @param defaultHandler    A block for handling responses that do not match any of the redirect rules. `NULL` is permitted.
+
+ @return A new URL cache.
+ */
 -(instancetype)initWithRedirectRules:(NSArray *)redirectRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultResponseHandler NS_DESIGNATED_INITIALIZER;
 
+/**
+ An array of BCLRedirectingURLCacheRedirectionRule instances that requests are evaluated against.
+ */
 @property(atomic, readonly) NSArray *redirectRules;
+/**
+ A block for handling responses that do not match any of the redirect rules.
+ */
 @property(atomic, readonly) NSCachedURLResponse *(^defaultResponseHandler)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper);
+/**
+ A block that is invoked when the instance needs to log an error. Defaults to BCLRedirectingURLCacheDefaultLogHandler.
+ */
 @property(atomic, copy) void (^logHandler)(NSString *message);
 
 @end
