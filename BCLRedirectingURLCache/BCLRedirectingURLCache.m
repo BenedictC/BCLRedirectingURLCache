@@ -19,17 +19,16 @@
 {
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *redirectRulesPath = [bundle pathForResource:fileName ofType:nil];
-    NSString *resourceRootPath = [bundle bundlePath];
+    NSURL *baseURL = [bundle bundleURL];
 
-    return [BCLRedirectingURLCache cacheWithRedirectRulesPath:redirectRulesPath resourceRootPath:resourceRootPath defaultResponseHandler:defaultHandler];
+    return [BCLRedirectingURLCache cacheWithRedirectRulesPath:redirectRulesPath baseURL:baseURL defaultResponseHandler:defaultHandler];
 }
 
 
 
-+(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath resourceRootPath:(NSString *)nullableResourceRootPath defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *request, id<BCLNonCachingHTTPConnectionService> connectionHelper))defaultHandler
++(instancetype)cacheWithRedirectRulesPath:(NSString *)redirectRulesPath baseURL:(NSURL *)nullableBaseURL defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultHandler
 {
-    NSString *resourceRootPath = (nullableResourceRootPath != nil) ? nullableResourceRootPath : [redirectRulesPath stringByDeletingLastPathComponent];
-    NSURL *baseURL = [NSURL fileURLWithPath:resourceRootPath];
+    NSURL *baseURL = (nullableBaseURL != nil) ? nullableBaseURL : [NSURL fileURLWithPath:[redirectRulesPath stringByDeletingLastPathComponent]];
     NSArray *redirectRules = [BCLRedirectingURLCacheRedirectionRule redirectRulesFromContentsOfFile:redirectRulesPath baseURL:baseURL];
 
     return [[self alloc] initWithRedirectRules:redirectRules defaultResponseHandler:defaultHandler];
@@ -46,9 +45,7 @@
 
 
 -(instancetype)initWithRedirectRules:(NSArray *)redirectRules defaultResponseHandler:(NSCachedURLResponse *(^)(NSURLRequest *, id<BCLNonCachingHTTPConnectionService>))defaultResponseHandler
-{
-    NSParameterAssert(redirectRules || defaultResponseHandler);
-    
+{    
     self = [super initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
 
     if (self == nil) {
