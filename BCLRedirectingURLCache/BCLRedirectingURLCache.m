@@ -58,6 +58,8 @@
     _redirectRules = [redirectRules copy];
     _defaultResponseHandler = defaultResponseHandler;
 
+    _logHandler = BCLRedirectingURLCacheDefaultLogHandler;
+
     return self;
 }
 
