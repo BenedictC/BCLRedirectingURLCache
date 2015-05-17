@@ -81,7 +81,7 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
     if (self == nil) {
         return nil;
     }
-
+#pragma message "TODO: NSURLConnection performs a deep copy. Should we do the same?"
     _URLRequest = [request copy];
 
     _responseBodyData = [NSMutableData new];
