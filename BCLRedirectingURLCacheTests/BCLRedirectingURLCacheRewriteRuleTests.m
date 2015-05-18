@@ -19,7 +19,7 @@
 
 @implementation BCLRedirectingURLCacheRedirectionRuleTests
 
-//Parsing tests
+#pragma mark - redirect rules file parsing
 -(void)testWhitespaceParsing
 {
     //Given
@@ -92,13 +92,164 @@
 
 
 
-//Functionality tests
-#pragma message "TODO: failing method resolution"
-#pragma message "TODO: absolute path resolution"
-#pragma message "TODO: relative path resolution with baseURL"
-#pragma message "TODO: relative path resolution without baseURL"
-#pragma message "TODO: failing path resolution"
+#pragma mark - Init tests
+
+-(void)testInvalidMethodRegex
+{
+    //Given
+    NSString *methodRegex = @"(GET)|(HEAD";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"http://apple.com$1";
+    NSURL *baseURL = nil;
+
+    //When & Then
+    XCTAssertThrows([[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL]);
+}
 
 
+
+-(void)testInvalidURLRegex
+{
+    //Given
+    NSString *methodRegex = @"(GET)|(HEAD)";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*";
+    NSString *replacementPattern = @"http://apple.com$1";
+    NSURL *baseURL = nil;
+
+    //When & Then
+    XCTAssertThrows([[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL]);
+}
+
+
+
+-(void)testNonAbsoluteBaseURL
+{
+    //Given
+    NSString *methodRegex = @"(GET)|(HEAD)";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"$1";
+    NSURL *baseURL = [NSURL URLWithString:@"apple.com"];
+
+    //When & Then
+    XCTAssertThrows([[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL]);
+}
+
+
+
+#pragma mark - Functionality tests
+
+-(void)testResolveWithNonMatchingHTTPMethodRegex
+{
+    //Given
+    NSString *methodRegex = @"HEAD";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"$1";
+    NSURL *baseURL = [NSURL URLWithString:@"http://apple.com"];
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com"]];
+
+    //When
+    NSURL *actualResult = [rule resolvedURLForRequest:request];
+
+    //Then
+    id expectedResult = nil;
+    XCTAssertEqualObjects(actualResult, expectedResult);
+}
+
+
+
+-(void)testResolveWithPartiallyMatchingHTTPMethodRegex
+{
+    //Given
+    NSString *methodRegex = @"GE";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"$1";
+    NSURL *baseURL = [NSURL URLWithString:@"http://apple.com"];
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com"]];
+
+    //When
+    NSURL *actualResult = [rule resolvedURLForRequest:request];
+
+    //Then
+    id expectedResult = nil;
+    XCTAssertEqualObjects(actualResult, expectedResult);
+}
+
+
+
+-(void)testResolveWithPartiallyMatchingURLRegex
+{
+    //Given
+    NSString *methodRegex = @"GET";
+    NSString *urlRegex = @"ttp://fruitshop\\.co";
+    NSString *replacementPattern = @"$1";
+    NSURL *baseURL = [NSURL URLWithString:@"http://apple.com"];
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com/arf/boom"]];
+
+    //When
+    NSURL *actualResult = [rule resolvedURLForRequest:request];
+
+    //Then
+    id expectedResult = nil;
+    XCTAssertEqualObjects(actualResult, expectedResult);
+}
+
+
+
+-(void)testResolveWithAbsolutePattern
+{
+    //Given
+    NSString *methodRegex = @"GET";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"http://apple.com$1";
+    NSURL *baseURL = nil;
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com/arf"]];
+
+    //When
+    NSURL *actualResult = [rule resolvedURLForRequest:request];
+
+    //Then
+    id expectedResult = [NSURL URLWithString:@"http://apple.com/arf"];
+    XCTAssertEqualObjects(actualResult, expectedResult);
+}
+
+
+
+-(void)testResolveWithRelativePatternAndNilBaseURL
+{
+    //Given
+    NSString *methodRegex = @"GET";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"apple.com$1";
+    NSURL *baseURL = nil;
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com/arf"]];
+
+    //When & Then
+    XCTAssertThrows([rule resolvedURLForRequest:request]);
+}
+
+
+
+-(void)testResolveWithRelativePatternAndNonNilBaseURL
+{
+    //Given
+    NSString *methodRegex = @"GET";
+    NSString *urlRegex = @"http://fruitshop\\.com(.*)";
+    NSString *replacementPattern = @"$1";
+    NSURL *baseURL = [NSURL URLWithString:@"http://apple.com"];
+    BCLRedirectingURLCacheRedirectionRule *rule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:methodRegex URLRegex:urlRegex URLReplacementPattern:replacementPattern baseURL:baseURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fruitshop.com/arf"]];
+
+    //When
+    NSURL *actualResult = [rule resolvedURLForRequest:request];
+
+    //Then
+    id expectedResult = [NSURL URLWithString:@"http://apple.com/arf"];
+    XCTAssertEqualObjects(actualResult, expectedResult);
+}
 
 @end

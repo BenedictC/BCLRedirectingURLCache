@@ -135,4 +135,66 @@
     //We don't compare the response headers because ???
 }
 
+
+
+//#pragma mark - NSURLRequest copying behaviour verification
+//-(void)testCopyingOfURLRequestWithBodyData
+//{
+//    //Given
+//    NSString *expectedMethod = @"GET";
+//    NSMutableString *method = expectedMethod.mutableCopy;
+//    NSData *expectedBody = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://apple.com"]];
+//    NSMutableData *body = expectedBody.mutableCopy;
+//    NSString *headerKey = @"key";
+//    NSString *expectedHeaderValue = @"value";
+//    NSMutableString *headerValue = [expectedHeaderValue mutableCopy];
+//
+//    NSMutableURLRequest *original = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.com"]];
+//    original.HTTPMethod = method;
+//    original.HTTPBody = body;
+//    [original addValue:headerValue forHTTPHeaderField:headerKey];
+//
+//    NSURLRequest *copy = [original copy];
+//
+//    //When
+//    [method setString:@"BOOM"];
+//    [body setData:[NSData new]];
+//    [headerValue setString:@"-"];
+//
+//    //Then
+//    XCTAssertEqualObjects(expectedMethod, copy.HTTPMethod);
+//    XCTAssertEqualObjects(expectedBody, copy.HTTPBody);
+//    XCTAssertEqualObjects(expectedHeaderValue, copy.allHTTPHeaderFields[headerKey]);
+//}
+//
+//
+//
+//-(void)testCopyingOfURLRequestWithBodyStream
+//{
+//    //Given
+//    NSString *expectedMethod = @"GET";
+//    NSMutableString *method = expectedMethod.mutableCopy;
+//    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://apple.com"]];
+//    NSInputStream *expectedBodyStream = [NSInputStream inputStreamWithData:data];
+//    NSString *headerKey = @"key";
+//    NSString *expectedHeaderValue = @"value";
+//    NSMutableString *headerValue = [expectedHeaderValue mutableCopy];
+//
+//    NSMutableURLRequest *original = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://apple.com"]];
+//    original.HTTPMethod = method;
+//    original.HTTPBodyStream = expectedBodyStream;
+//    [original addValue:headerValue forHTTPHeaderField:headerKey];
+//
+//    NSURLRequest *copy = [original copy];
+//
+//    //When
+//    [method setString:@"BOOM"];
+//    [headerValue setString:@"-"];
+//
+//    //Then
+//    XCTAssertEqualObjects(expectedMethod, copy.HTTPMethod);
+//    XCTAssertEqualObjects(expectedBodyStream, copy.HTTPBodyStream);
+//    XCTAssertEqualObjects(expectedHeaderValue, copy.allHTTPHeaderFields[headerKey]);
+//}
+
 @end

@@ -22,7 +22,8 @@
 -(void)testRedirectToHTTPSResource
 {
     //Given
-//    NSString *rule = @"GET ";
+    BCLRedirectingURLCache *cache = [BCLRedirectingURLCache cacheWithRedirectRulesFileNamed:@"arf" defaultResponseHandler:NULL];
+    cache.logHandler = BCLRedirectingURLCacheDefaultLogHandler;
 
     //When
 
@@ -30,9 +31,23 @@
 }
 
 #pragma message "TODO: Test factory methods"
+#pragma message "TODO: Test that path of  redirects file is being used as resource root when resource root is nil"
 
 #pragma message "TODO: Test different protocols load correctly"
 #pragma message "TODO: Test behaviour when unable to load subsitute resource"
 //#pragma message "TODO: Test parent cache functionality"
+
+
+-(void)testResolveWithMissingReplacementResource
+{
+    //Given
+
+    //When
+//    id actualResult = [NSObject new];
+
+    //Then
+//    id expectedResult = [NSObject new];
+//    XCTAssertEqualObjects(actualResult, expectedResult);
+}
 
 @end

@@ -7,11 +7,12 @@
 //
 
 #import "BCLRedirectingURLCacheRedirectionRule.h"
+#import "BCLExceptions.h"
 
 
 
 @interface BCLRedirectingURLCacheRedirectionRule ()
-@property(readonly) NSPredicate *methodMatcher;
+@property(readonly) NSRegularExpression *methodMatcher;
 @property(readonly) NSRegularExpression *pathMatcher;
 @end
 
@@ -41,29 +42,28 @@
 
 
 #pragma mark - parsing
-#define BCLRaiseIf(CONDITION, FORMAT, ...) if (!(CONDITION)) {     [NSException raise:NSInvalidArgumentException format:FORMAT, __VA_ARGS__ ]; }
 +(NSArray *)scanRedirectRulesFromString:(NSString *)string baseURL:(NSURL *)baseURL path:(NSString *)redirectRulesPath
 {
-    NSParameterAssert(string);
+    BCLExpectParameter(string);
     NSScanner *scanner = [NSScanner scannerWithString:string];
     scanner.charactersToBeSkipped = nil;
     NSMutableArray *redirectRules = [NSMutableArray new];
     while ([self scanCommentsAndWhitespace:scanner]) {
         NSString *method = nil;
         BOOL didScanMethod = [self scanMethodRegexFromScanner:scanner intoString:&method];
-        BCLRaiseIf(didScanMethod, @"Failed to scan method for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLExpect(didScanMethod, @"Failed to scan method for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
         NSString *regex = nil;
         BOOL didScanRegex = [self scanURLRegexFromScanner:scanner intoString:&regex];
-        BCLRaiseIf(didScanRegex, @"Failed to scan regex for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLExpect(didScanRegex, @"Failed to scan regex for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
         NSString *replacementPattern = nil;
         BOOL didScanReplacementPattern = [self scanReplacementPatternFromScanner:scanner intoString:&replacementPattern];
-        BCLRaiseIf(didScanReplacementPattern, @"Failed to scan replacementPattern for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLExpect(didScanReplacementPattern, @"Failed to scan replacementPattern for RedirectRule at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         //Scan trailing comment and the terminal new line
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
@@ -71,7 +71,7 @@
             [scanner scanUpToString:@"\n" intoString:NULL];
         }
         BOOL didScanNewline = [scanner scanString:@"\n" intoString:NULL];
-        BCLRaiseIf(didScanNewline || scanner.isAtEnd, @"Unexpected text found at end of RedirectRule line at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
+        BCLExpect(didScanNewline || scanner.isAtEnd, @"Unexpected text found at end of RedirectRule line at character %@ of %@: %@", @(scanner.scanLocation), redirectRulesPath ?: @"<string>", [scanner.string substringToIndex:scanner.scanLocation]);
 
         //Add the scanned rule
         BCLRedirectingURLCacheRedirectionRule *redirectRule = [[BCLRedirectingURLCacheRedirectionRule alloc] initWithMethodRegex:method URLRegex:regex URLReplacementPattern:replacementPattern baseURL:baseURL];
@@ -102,7 +102,7 @@
 
 +(BOOL)scanMethodRegexFromScanner:(NSScanner *)scanner intoString:(NSString **)method
 {
-    NSParameterAssert(method);
+    BCLExpectParameter(method);
 
     if ([scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:method]) {
         //If there's no whitespace then the scan failed
@@ -168,12 +168,13 @@
 }
 
 
-
+#define BCLRaise
 -(instancetype)initWithMethodRegex:(NSString *)methodRegex URLRegex:(NSString *)URLRegex URLReplacementPattern:(NSString *)replacementPattern baseURL:(NSURL *)baseURL;
 {
-    NSParameterAssert(methodRegex);
-    NSParameterAssert(URLRegex);
-    NSParameterAssert(replacementPattern);
+    BCLExpectParameter(methodRegex);
+    BCLExpectParameter(URLRegex);
+    BCLExpectParameter(replacementPattern);
+    BCLExpect(baseURL == nil || baseURL.scheme != nil, @"Invalid baseURL value: %@. baseURL must be nil or must contain scheme (a.k.a. protocol, e.g 'http', 'file', 'https').", baseURL);
 
     self = [super init];
 
@@ -186,11 +187,11 @@
     _URLReplacementPattern = [replacementPattern copy];
     _baseURL = baseURL;
 
-    _methodMatcher = [NSPredicate predicateWithFormat:@"self MATCHES %@", _methodRegex];
     NSError *error;
+    _methodMatcher = [[NSRegularExpression alloc] initWithPattern:methodRegex options:0 error:&error];
+    BCLExpect(_methodMatcher != nil, @"Invalid methodRegex: %@", error);
     _pathMatcher = [[NSRegularExpression alloc] initWithPattern:URLRegex options:0 error:&error];
-    NSAssert(_pathMatcher != nil, @"\\%@\\ in not a valid regular expression: %@", URLRegex, error);
-
+    BCLExpect(_pathMatcher != nil, @"Invalid methodRegex: %@", error);
 
     return self;
 }
@@ -200,26 +201,44 @@
 #pragma mark - evaluation
 -(NSURL *)resolvedURLForRequest:(NSURLRequest *)request
 {
-    NSParameterAssert(request);
+    BCLExpectParameter(request);
 
-    BOOL didMatchMethod = [self.methodMatcher evaluateWithObject:request.URL];
+    NSString *method = request.HTTPMethod;
+    BOOL didMatchMethod = [self regularExpression:self.methodMatcher isCompleteMatchForString:method];
     if (!didMatchMethod) {
         return nil;
     }
 
     NSString *input = request.URL.absoluteString;
-    NSMatchingOptions options = 0;
-    NSRange range = NSMakeRange(0, input.length);
-    NSRange firstMatchRange = [self.pathMatcher rangeOfFirstMatchInString:input options:options range:range];
-    if (firstMatchRange.location == NSNotFound) {
+    BOOL didMatchURL = [self regularExpression:self.pathMatcher isCompleteMatchForString:input];
+    if (didMatchURL) {
         return nil;
     }
 
+    NSMatchingOptions options = 0;
+    NSRange range = NSMakeRange(0, input.length);
     NSString *output = [self.pathMatcher stringByReplacingMatchesInString:input options:options range:range withTemplate:self.URLReplacementPattern];
 
-    NSURL *url = (self.baseURL == nil) ? [NSURL URLWithString:output] : [self.baseURL URLByAppendingPathComponent:output];
+    NSURL *resultURL = (self.baseURL == nil) ? [NSURL URLWithString:output] : [self.baseURL URLByAppendingPathComponent:output];
 
-    return url;
+    return resultURL;
+}
+
+
+
+-(BOOL)regularExpression:(NSRegularExpression *)regex isCompleteMatchForString:(NSString *)string
+{
+    __block BOOL didMatch = NO;
+    NSRange range = NSMakeRange(0, string.length);
+
+    [self.methodMatcher enumerateMatchesInString:string options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        if (NSEqualRanges(result.range, range)) {
+            *stop = YES;
+            didMatch = YES;
+        }
+    }];
+
+    return didMatch;
 }
 
 

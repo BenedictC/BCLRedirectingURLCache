@@ -37,6 +37,7 @@
 		82790B641B009B4800AA40FF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BCLRedirectingURLCache.podspec; sourceTree = "<group>"; };
 		82790B671B009B7000AA40FF /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		82A6ADC91B09EA19006BB3A0 /* BCLExceptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCLExceptions.h; sourceTree = "<group>"; };
 		82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BCLRedirectingURLCache; sourceTree = BUILT_PRODUCTS_DIR; };
 		82DFCDC81AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLNonCachingHTTPConnection.h; sourceTree = "<group>"; };
 		82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLNonCachingHTTPConnection.m; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		82DFCDC71AFE4D3C00D71740 /* BCLRedirectingURLCache */ = {
 			isa = PBXGroup;
 			children = (
+				82A6ADC91B09EA19006BB3A0 /* BCLExceptions.h */,
 				82DFCDCA1AFE4D3C00D71740 /* BCLRedirectingURLCache.h */,
 				82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */,
 				82DFCDCC1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.h */,

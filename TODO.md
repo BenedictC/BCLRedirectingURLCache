@@ -4,7 +4,7 @@
 
 # Bugs
 
-- Should BCLNonCachingHTTPConnection perform a deep copy of the request?
+- BCLNonCachingHTTPConnection must check .HTTPBodyStream as well as .HTTPBody.
 
 # Features
 

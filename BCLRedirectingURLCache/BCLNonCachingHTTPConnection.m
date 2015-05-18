@@ -81,8 +81,14 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
     if (self == nil) {
         return nil;
     }
-#pragma message "TODO: NSURLConnection performs a deep copy. Should we do the same?"
-    _URLRequest = [request copy];
+
+    //[NSURLRequest copy] is strange. NSURLRequest does not copy headers and body when they are set which means they can be mutated arbitarily.
+    NSMutableURLRequest *copy = [request mutableCopy];
+    copy.HTTPBody = [request.HTTPBody copy];
+    [request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
+        [copy setValue:[obj copy] forHTTPHeaderField:key];
+    }];
+    _URLRequest = copy;
 
     _responseBodyData = [NSMutableData new];
 
@@ -104,6 +110,7 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
     }];
 
     //Body
+#pragma message "TODO: We also need to check .HTTPBodyStream for data."
     if (originalRequest.HTTPBody != nil) {
         CFHTTPMessageSetBody(request, (__bridge CFDataRef)originalRequest.HTTPBody);
     }
