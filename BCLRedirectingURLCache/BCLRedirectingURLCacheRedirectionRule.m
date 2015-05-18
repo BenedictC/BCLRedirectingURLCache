@@ -211,7 +211,7 @@
 
     NSString *input = request.URL.absoluteString;
     BOOL didMatchURL = [self regularExpression:self.pathMatcher isCompleteMatchForString:input];
-    if (didMatchURL) {
+    if (!didMatchURL) {
         return nil;
     }
 
@@ -220,6 +220,8 @@
     NSString *output = [self.pathMatcher stringByReplacingMatchesInString:input options:options range:range withTemplate:self.URLReplacementPattern];
 
     NSURL *resultURL = (self.baseURL == nil) ? [NSURL URLWithString:output] : [self.baseURL URLByAppendingPathComponent:output];
+
+    BCLExpect(resultURL.scheme != nil, @"Invalid URL replacement pattern: '%@' did not create an absolute URL from URL %@.", self.URLReplacementPattern, input);
 
     return resultURL;
 }
@@ -231,7 +233,7 @@
     __block BOOL didMatch = NO;
     NSRange range = NSMakeRange(0, string.length);
 
-    [self.methodMatcher enumerateMatchesInString:string options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+    [regex enumerateMatchesInString:string options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
         if (NSEqualRanges(result.range, range)) {
             *stop = YES;
             didMatch = YES;
