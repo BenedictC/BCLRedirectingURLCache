@@ -113,7 +113,7 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
     }];
 
     //Body
-#pragma message "TODO: We also need to check .HTTPBodyStream for data."
+//TODO: We also need to check .HTTPBodyStream for data.
     if (originalRequest.HTTPBody != nil) {
         CFHTTPMessageSetBody(request, (__bridge CFDataRef)originalRequest.HTTPBody);
     }
