@@ -53,6 +53,7 @@
 		826B8F611B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSBCLRedirectingURLCache.h; sourceTree = "<group>"; };
 		826B8F631B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSBCLRedirectingURLCache.m; sourceTree = "<group>"; };
 		826B8F6F1B0B3ED500B56A67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		826B8F791B0B41C200B56A67 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		82790B641B009B4800AA40FF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BCLRedirectingURLCache.podspec; sourceTree = "<group>"; };
 		82790B671B009B7000AA40FF /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				82790B641B009B4800AA40FF /* LICENSE */,
+				826B8F791B0B41C200B56A67 /* readme.md */,
 				82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */,
 				82790B671B009B7000AA40FF /* TODO.md */,
 			);
