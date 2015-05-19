@@ -88,6 +88,9 @@ void readStreamEventHandler(CFReadStreamRef stream, CFStreamEventType type, void
     [request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         [copy setValue:[obj copy] forHTTPHeaderField:key];
     }];
+    //Prevent the response from being compressed
+    //TODO: This is not the best solution. Read the HTTP spec and then do something better.
+    [copy setValue:nil forHTTPHeaderField:@"Accept-Encoding"];
     _URLRequest = copy;
 
     _responseBodyData = [NSMutableData new];
