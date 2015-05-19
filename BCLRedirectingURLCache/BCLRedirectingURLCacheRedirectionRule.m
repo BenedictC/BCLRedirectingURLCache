@@ -218,12 +218,15 @@
     NSMatchingOptions options = 0;
     NSRange range = NSMakeRange(0, input.length);
     NSString *output = [self.pathMatcher stringByReplacingMatchesInString:input options:options range:range withTemplate:self.URLReplacementPattern];
+    NSURL *partialURL = [NSURL URLWithString:output];
 
-    NSURL *resultURL = (self.baseURL == nil) ? [NSURL URLWithString:output] : [self.baseURL URLByAppendingPathComponent:output];
+    NSURL *resultURL = (partialURL.scheme == nil && self.baseURL != nil) ? [NSURL URLWithString:partialURL.absoluteString relativeToURL:self.baseURL] : partialURL;
 
     BCLExpect(resultURL.scheme != nil, @"Invalid URL replacement pattern: '%@' did not create an absolute URL from URL %@.", self.URLReplacementPattern, input);
 
-    return resultURL;
+    //URLs created with URLWithString:relativeToURL: do not compare as equal to URLs created with URLWithString: so we normalize.
+    NSURL *normalizedURL = [NSURL URLWithString:resultURL.absoluteString];
+    return normalizedURL;
 }
 
 
