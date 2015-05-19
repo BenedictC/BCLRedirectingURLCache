@@ -13,7 +13,7 @@
 		82DFCDD11AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */; };
 		82DFCDD21AFE4D3C00D71740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCE1AFE4D3C00D71740 /* main.m */; };
 		82DFCDF11AFE560D00D71740 /* BCLNonCachingHTTPConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */; };
-		82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */; };
+		82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRedirectionRuleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRedirectionRuleTests.m */; };
 		82DFCDF31AFE560D00D71740 /* BCLRedirectingURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */; };
 		82DFCDF41AFE561100D71740 /* url-cache.redirects in Resources */ = {isa = PBXBuildFile; fileRef = 82DFCDD71AFE4D4700D71740 /* url-cache.redirects */; };
 		82DFCDF51AFE563D00D71740 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
@@ -47,7 +47,7 @@
 		82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheRedirectionRule.m; sourceTree = "<group>"; };
 		82DFCDCE1AFE4D3C00D71740 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLNonCachingHTTPConnectionTests.m; sourceTree = "<group>"; };
-		82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheRewriteRuleTests.m; sourceTree = "<group>"; };
+		82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRedirectionRuleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheRedirectionRuleTests.m; sourceTree = "<group>"; };
 		82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLRedirectingURLCacheTests.m; sourceTree = "<group>"; };
 		82DFCDD71AFE4D4700D71740 /* url-cache.redirects */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "url-cache.redirects"; sourceTree = "<group>"; };
 		82DFCDD91AFE4D4700D71740 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				82DFCDD61AFE4D4700D71740 /* BCLRedirectingURLCacheTests.m */,
-				82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m */,
+				82DFCDD51AFE4D4700D71740 /* BCLRedirectingURLCacheRedirectionRuleTests.m */,
 				82DFCDD41AFE4D4700D71740 /* BCLNonCachingHTTPConnectionTests.m */,
 				82DFCDD81AFE4D4700D71740 /* Supporting Files */,
 				82DFCDD71AFE4D4700D71740 /* url-cache.redirects */,
@@ -236,7 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRewriteRuleTests.m in Sources */,
+				82DFCDF21AFE560D00D71740 /* BCLRedirectingURLCacheRedirectionRuleTests.m in Sources */,
 				82DFCDF71AFE563D00D71740 /* BCLNonCachingHTTPConnection.m in Sources */,
 				82DFCDF61AFE563D00D71740 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */,
 				82DFCDF31AFE560D00D71740 /* BCLRedirectingURLCacheTests.m in Sources */,
