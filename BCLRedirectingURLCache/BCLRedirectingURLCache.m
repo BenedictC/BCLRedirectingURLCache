@@ -77,12 +77,12 @@
                     [BCLNonCachingHTTPConnection sendSynchronousRequest:secondaryRequest returningResponse:NULL error:NULL];
                 }) :
                 [resolved.scheme isEqualToString:@"file"] ? ({
-                    [NSData dataWithContentsOfFile:resolved.path];
+                    [NSData dataWithContentsOfURL:resolved];
                 }) :
                 nil;
 
             if (data == nil) {
-                [self log:@"%@: Unable to load data for redirected URLRequest. Rule: %@\nInital URL: %@\nRedirect URL:%@", NSStringFromClass(self.class), rule, request.URL, resolved];
+                [self log:@"%@: Unable to load data for redirected URLRequest. Data will be loaded for inital request.\n Rule: %@\nInitial URL: %@\nRedirect URL:%@", NSStringFromClass(self.class), rule, request.URL, resolved];
                 return nil;
             }
 
@@ -141,56 +141,57 @@
 
 
 
-//- (void)removeCachedResponseForRequest:(NSURLRequest *)request
-//{
+- (void)removeCachedResponseForRequest:(NSURLRequest *)request
+{
 //    [self.parentCache removeCachedResponseForRequest:request];
-//}
-//
-//
-//
-//- (void)removeAllCachedResponses
-//{
+}
+
+
+
+- (void)removeAllCachedResponses
+{
 //    [self.parentCache removeAllCachedResponses];
-//}
-//
-//
-//
-//- (void)removeCachedResponsesSinceDate:(NSDate *)date
-//{
+}
+
+
+
+- (void)removeCachedResponsesSinceDate:(NSDate *)date
+{
 //    id parentCache = self.parentCache;
 //    if ([parentCache respondsToSelector:@selector(removeCachedResponsesSinceDate:)]) {
 //        [parentCache removeCachedResponsesSinceDate:date];
 //    }
-//}
-//
-//
-//
-//- (void)storeCachedResponse:(NSCachedURLResponse *)cachedResponse forDataTask:(NSURLSessionDataTask *)dataTask
-//{
+}
+
+
+
+- (void)storeCachedResponse:(NSCachedURLResponse *)cachedResponse forDataTask:(NSURLSessionDataTask *)dataTask
+{
 //    id parentCache = self.parentCache;
 //    if ([parentCache respondsToSelector:@selector(storeCachedResponse:forDataTask:)]) {
 //        [parentCache storeCachedResponse:cachedResponse forDataTask:dataTask];
 //    }
-//}
-//
-//
-//
+}
+
+
+
 //- (void)getCachedResponseForDataTask:(NSURLSessionDataTask *)dataTask completionHandler:(void (^) (NSCachedURLResponse *cachedResponse))completionHandler
 //{
-//    id parentCache = self.parentCache;
-//    if ([parentCache respondsToSelector:@selector(getCachedResponseForDataTask:completionHandler:)]) {
-//        [parentCache getCachedResponseForDataTask:dataTask completionHandler:completionHandler];
-//    }
+////    id parentCache = self.parentCache;
+////    if ([parentCache respondsToSelector:@selector(getCachedResponseForDataTask:completionHandler:)]) {
+////        [parentCache getCachedResponseForDataTask:dataTask completionHandler:completionHandler];
+////    }
+//    completionHandler(nil);
 //}
 //
 //
 //
 //- (void)removeCachedResponseForDataTask:(NSURLSessionDataTask *)dataTask
 //{
-//    id parentCache = self.parentCache;
-//    if ([parentCache respondsToSelector:@selector(removeCachedResponseForDataTask:)]) {
-//        [parentCache removeCachedResponseForDataTask:dataTask];
-//    }
+////    id parentCache = self.parentCache;
+////    if ([parentCache respondsToSelector:@selector(removeCachedResponseForDataTask:)]) {
+////        [parentCache removeCachedResponseForDataTask:dataTask];
+////    }
 //}
 
 @end
