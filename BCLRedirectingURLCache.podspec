@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "BCLRedirectingURLCache"
-  s.version      = "0.1.1"
+  s.version      = "0.2"
   s.summary      = "A NSURLCache subclass for redirecting requests."
 
   s.description  = <<-DESC
@@ -66,7 +66,7 @@ BCLRedirectingURLCache allows requests to be redirected to local or remote files
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/BenedictC/BCLRedirectingURLCache.git", :tag => "0.1.1" }
+  s.source       = { :git => "https://github.com/BenedictC/BCLRedirectingURLCache.git", :tag => "0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
