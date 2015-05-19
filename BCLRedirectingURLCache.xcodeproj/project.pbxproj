@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		826B8F621B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 826B8F611B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h */; };
+		826B8F641B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B8F631B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m */; };
+		826B8F761B0B3EEF00B56A67 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
+		826B8F771B0B3EEF00B56A67 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCD1AFE4D3C00D71740 /* BCLRedirectingURLCacheRedirectionRule.m */; };
+		826B8F781B0B3EEF00B56A67 /* BCLNonCachingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */; };
 		82790B651B009B4800AA40FF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82790B641B009B4800AA40FF /* LICENSE */; };
 		82DFCDCF1AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDC91AFE4D3C00D71740 /* BCLNonCachingHTTPConnection.m */; };
 		82DFCDD01AFE4D3C00D71740 /* BCLRedirectingURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DFCDCB1AFE4D3C00D71740 /* BCLRedirectingURLCache.m */; };
@@ -22,6 +27,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		826B8F5D1B0B3ED500B56A67 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				826B8F621B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82DC82DD1AFD3BE9000E0552 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -34,6 +49,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		826B8F5F1B0B3ED500B56A67 /* libiOSBCLRedirectingURLCache.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiOSBCLRedirectingURLCache.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		826B8F611B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSBCLRedirectingURLCache.h; sourceTree = "<group>"; };
+		826B8F631B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSBCLRedirectingURLCache.m; sourceTree = "<group>"; };
+		826B8F6F1B0B3ED500B56A67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82790B641B009B4800AA40FF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		82790B661B009B7000AA40FF /* BCLRedirectingURLCache.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BCLRedirectingURLCache.podspec; sourceTree = "<group>"; };
 		82790B671B009B7000AA40FF /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
@@ -55,6 +74,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		826B8F5C1B0B3ED500B56A67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82DC82DC1AFD3BE9000E0552 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,6 +98,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826B8F601B0B3ED500B56A67 /* iOSBCLRedirectingURLCache */ = {
+			isa = PBXGroup;
+			children = (
+				826B8F611B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.h */,
+				826B8F631B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m */,
+			);
+			path = iOSBCLRedirectingURLCache;
+			sourceTree = "<group>";
+		};
+		826B8F6D1B0B3ED500B56A67 /* iOSBCLRedirectingURLCacheTests */ = {
+			isa = PBXGroup;
+			children = (
+				826B8F6E1B0B3ED500B56A67 /* Supporting Files */,
+			);
+			path = iOSBCLRedirectingURLCacheTests;
+			sourceTree = "<group>";
+		};
+		826B8F6E1B0B3ED500B56A67 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				826B8F6F1B0B3ED500B56A67 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		82790B681B009B7400AA40FF /* Docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +139,8 @@
 				82790B681B009B7400AA40FF /* Docs */,
 				82DFCDC71AFE4D3C00D71740 /* BCLRedirectingURLCache */,
 				82DFCDD31AFE4D4700D71740 /* BCLRedirectingURLCacheTests */,
+				826B8F601B0B3ED500B56A67 /* iOSBCLRedirectingURLCache */,
+				826B8F6D1B0B3ED500B56A67 /* iOSBCLRedirectingURLCacheTests */,
 				82DC82E01AFD3BEA000E0552 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,6 +150,7 @@
 			children = (
 				82DC82DF1AFD3BEA000E0552 /* BCLRedirectingURLCache */,
 				82DFCDE61AFE55D500D71740 /* BCLRedirectingURLCacheTests.xctest */,
+				826B8F5F1B0B3ED500B56A67 /* libiOSBCLRedirectingURLCache.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,6 +193,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		826B8F5E1B0B3ED500B56A67 /* iOSBCLRedirectingURLCache */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 826B8F741B0B3ED500B56A67 /* Build configuration list for PBXNativeTarget "iOSBCLRedirectingURLCache" */;
+			buildPhases = (
+				826B8F5B1B0B3ED500B56A67 /* Sources */,
+				826B8F5C1B0B3ED500B56A67 /* Frameworks */,
+				826B8F5D1B0B3ED500B56A67 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSBCLRedirectingURLCache;
+			productName = iOSBCLRedirectingURLCache;
+			productReference = 826B8F5F1B0B3ED500B56A67 /* libiOSBCLRedirectingURLCache.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		82DC82DE1AFD3BE9000E0552 /* BCLRedirectingURLCache */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82DC82E61AFD3BEA000E0552 /* Build configuration list for PBXNativeTarget "BCLRedirectingURLCache" */;
@@ -182,6 +253,9 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Benedict Cohen";
 				TargetAttributes = {
+					826B8F5E1B0B3ED500B56A67 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
 					82DC82DE1AFD3BE9000E0552 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -204,6 +278,7 @@
 			targets = (
 				82DC82DE1AFD3BE9000E0552 /* BCLRedirectingURLCache */,
 				82DFCDE51AFE55D500D71740 /* BCLRedirectingURLCacheTests */,
+				826B8F5E1B0B3ED500B56A67 /* iOSBCLRedirectingURLCache */,
 			);
 		};
 /* End PBXProject section */
@@ -221,6 +296,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		826B8F5B1B0B3ED500B56A67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				826B8F641B0B3ED500B56A67 /* iOSBCLRedirectingURLCache.m in Sources */,
+				826B8F781B0B3EEF00B56A67 /* BCLNonCachingHTTPConnection.m in Sources */,
+				826B8F771B0B3EEF00B56A67 /* BCLRedirectingURLCacheRedirectionRule.m in Sources */,
+				826B8F761B0B3EEF00B56A67 /* BCLRedirectingURLCache.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82DC82DB1AFD3BE9000E0552 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -248,6 +334,34 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		826B8F701B0B3ED500B56A67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		826B8F711B0B3ED500B56A67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		82DC82E41AFD3BEA000E0552 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -378,6 +492,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		826B8F741B0B3ED500B56A67 /* Build configuration list for PBXNativeTarget "iOSBCLRedirectingURLCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				826B8F701B0B3ED500B56A67 /* Debug */,
+				826B8F711B0B3ED500B56A67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		82DC82DA1AFD3BE9000E0552 /* Build configuration list for PBXProject "BCLRedirectingURLCache" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
